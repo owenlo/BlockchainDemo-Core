@@ -31,7 +31,7 @@ namespace BlockchainDemo.WebAPI.Controllers
                     //Create our genesis block when controller first runs
                     _context.BlockItems.Add(new Block("This is my genesis block", "", difficulty));
                     _context.SaveChanges();
-                }               
+                }
             }
         }
 
@@ -52,17 +52,28 @@ namespace BlockchainDemo.WebAPI.Controllers
             {
                 return NotFound();
             }
-
             return todoItem;
         }
 
-        [HttpGet("[action]")] 
-        public async Task<ActionResult> Difficulty()
+        [HttpGet("[action]")]
+        public ActionResult Difficulty()
         {
-            int difficulty;
-            await Task.FromResult(Int32.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out difficulty));
+            return Json("BlockDifficulty:" + GetDifficulty());
+        }
 
-            return Json("BlockDifficulty:" + difficulty);
+        [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<Block>>> Simulate(int instances)
+        {
+            for (int i = 0; i < instances; i++)
+            {
+                string prevHash = _context.BlockItems.Last().Hash;
+
+                Block item = new Block("Some random data " + Guid.NewGuid(), prevHash, GetDifficulty());
+                _context.BlockItems.Add(item);
+
+                await _context.SaveChangesAsync();
+            }
+            return await _context.BlockItems.ToListAsync();
         }
 
         // POST: api/Block
@@ -83,6 +94,12 @@ namespace BlockchainDemo.WebAPI.Controllers
             return CreatedAtAction(nameof(GetBlock), new { id = item.Id }, item);
         }
 
- 
+        private int GetDifficulty()
+        {
+            int difficulty;
+            Int32.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out difficulty);
+
+            return difficulty;
+        }
     }
 }
