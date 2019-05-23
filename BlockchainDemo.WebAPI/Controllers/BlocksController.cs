@@ -23,9 +23,8 @@ namespace BlockchainDemo.WebAPI.Controllers
 
             if (_context.BlockItems.Count() == 0)
             {
-                int difficulty;
-                Int32.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out difficulty);
-
+                int difficulty =  GetDifficulty();
+                    
                 if (difficulty > 0)
                 {
                     //Create our genesis block when controller first runs
@@ -80,8 +79,7 @@ namespace BlockchainDemo.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Block>> PostBlock(Block item)
         {
-            int difficulty;
-            Int32.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out difficulty);
+            int difficulty = GetDifficulty();
 
             if (item.Prevhash != _context.BlockItems.Last().Hash || item.Difficulty != difficulty)
             {
@@ -95,9 +93,8 @@ namespace BlockchainDemo.WebAPI.Controllers
         }
 
         private int GetDifficulty()
-        {
-            int difficulty;
-            Int32.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out difficulty);
+        {         
+            int difficulty = int.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out int intDifficulty) ? intDifficulty : 0;
 
             return difficulty;
         }
