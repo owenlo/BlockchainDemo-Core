@@ -1,0 +1,35 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockchainDemo.WebAPI", "BlockchainDemo.WebAPI\BlockchainDemo.WebAPI.csproj", "{FFB57573-D182-4216-ADF5-00FACAEF270D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockchainDemo.Entities", "BlockchainDemo.Entities\BlockchainDemo.Entities.csproj", "{411746DA-B351-43E7-AD3A-948ED1962B42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockchainDemo.Helpers", "BlockchainDemo.Helpers\BlockchainDemo.Helpers.csproj", "{8BA94AAE-6D4F-4100-8AE1-C97B8F469485}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockchainDemo.Data", "BlockchainDemo.Data\BlockchainDemo.Data.csproj", "{3F928ECB-8F7A-41E0-9948-3930405A2E43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFB57573-D182-4216-ADF5-00FACAEF270D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFB57573-D182-4216-ADF5-00FACAEF270D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFB57573-D182-4216-ADF5-00FACAEF270D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFB57573-D182-4216-ADF5-00FACAEF270D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{411746DA-B351-43E7-AD3A-948ED1962B42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{411746DA-B351-43E7-AD3A-948ED1962B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{411746DA-B351-43E7-AD3A-948ED1962B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{411746DA-B351-43E7-AD3A-948ED1962B42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BA94AAE-6D4F-4100-8AE1-C97B8F469485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BA94AAE-6D4F-4100-8AE1-C97B8F469485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BA94AAE-6D4F-4100-8AE1-C97B8F469485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BA94AAE-6D4F-4100-8AE1-C97B8F469485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F928ECB-8F7A-41E0-9948-3930405A2E43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F928ECB-8F7A-41E0-9948-3930405A2E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F928ECB-8F7A-41E0-9948-3930405A2E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F928ECB-8F7A-41E0-9948-3930405A2E43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
