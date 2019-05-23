@@ -13,19 +13,25 @@ namespace BlockchainDemo.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlockController : Controller
+    public class BlocksController : Controller
     {
         private readonly BlockContext _context;
 
-        public BlockController(BlockContext context)
+        public BlocksController(BlockContext context)
         {
             _context = context;
 
             if (_context.BlockItems.Count() == 0)
             {
-                //Create our genesis block when controller first runs
-                _context.BlockItems.Add(new Block("This is my genesis block", "", 5));
-                _context.SaveChanges();
+                int difficulty;
+                Int32.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out difficulty);
+
+                if (difficulty > 0)
+                {
+                    //Create our genesis block when controller first runs
+                    _context.BlockItems.Add(new Block("This is my genesis block", "", difficulty));
+                    _context.SaveChanges();
+                }               
             }
         }
 
@@ -50,14 +56,25 @@ namespace BlockchainDemo.WebAPI.Controllers
             return todoItem;
         }
 
+        [HttpGet("[action]")] 
+        public async Task<ActionResult> Difficulty()
+        {
+            int difficulty;
+            await Task.FromResult(Int32.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out difficulty));
+
+            return Json("BlockDifficulty:" + difficulty);
+        }
+
         // POST: api/Block
         [HttpPost]
         public async Task<ActionResult<Block>> PostBlock(Block item)
         {
+            int difficulty;
+            Int32.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out difficulty);
 
-            if (item.Prevhash != _context.BlockItems.Last().Hash)
+            if (item.Prevhash != _context.BlockItems.Last().Hash || item.Difficulty != difficulty)
             {
-                return null;
+                return StatusCode(400);
             }
 
             _context.BlockItems.Add(item);
@@ -65,5 +82,7 @@ namespace BlockchainDemo.WebAPI.Controllers
 
             return CreatedAtAction(nameof(GetBlock), new { id = item.Id }, item);
         }
+
+ 
     }
 }

@@ -10,9 +10,9 @@ namespace BlockchainDemo.Entities.Models
     {
 
         public long Id { get; set; }
-        public string Data { get; set; }
+        public string Data { get; private set; }
         public string Hash { get; private set; }
-        public string Prevhash { get; set; }
+        public string Prevhash { get; private set; }
         public DateTime Timestamp { get; private set; }
         public int Difficulty { get; private set; }
         public long Nonce { get; private set; }
