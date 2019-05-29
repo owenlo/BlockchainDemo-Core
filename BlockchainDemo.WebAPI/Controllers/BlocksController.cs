@@ -87,12 +87,15 @@ namespace BlockchainDemo.WebAPI.Controllers
                 return StatusCode(400);
             }
 
-            Block b = new Block(block.Data, block.Prevhash, currentDifficulty);
+            if (block.Difficulty != currentDifficulty)
+            {
+                return StatusCode(400);
+            }
 
-            _context.BlockItems.Add(b);
+            _context.BlockItems.Add(block);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetBlock), new { id = b.Id }, b);
+            return CreatedAtAction(nameof(GetBlock), new { id = block.Id }, block);
         }
 
         private int GetDifficulty()
