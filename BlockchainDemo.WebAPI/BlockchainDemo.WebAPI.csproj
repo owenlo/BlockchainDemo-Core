@@ -14,4 +14,7 @@
     <ProjectReference Include="..\BlockchainDemo.Entities\BlockchainDemo.Entities.csproj" />
     <ProjectReference Include="..\BlockchainDemo.Data\BlockchainDemo.Data.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
 </Project>

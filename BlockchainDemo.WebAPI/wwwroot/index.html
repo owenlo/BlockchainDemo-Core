@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>$(document).ready(function () {
+
+            $("#addblock").click(function () {
+                $.ajax({
+                    type: 'post',
+                    url: 'api/blocks',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify( { "data": $('#datainput').val(), "prevhash": $('#prevhashinput').val() } ),
+                    processData: false,
+                    success: function( data, textStatus, jQxhr ){
+                        addBlock(data);
+
+                        $('#datainput').val("");
+                        $('#prevhashinput').val(data.hash);
+                    },
+                    error: function( jqXhr, textStatus, errorThrown ){
+                        console.log( errorThrown );
+                        console.log($('#datainput').val());
+                    }
+                });
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: 'api/blocks',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (index, value) {
+                        addBlock(value);
+
+                        $('#prevhashinput').val(value.hash);
+                    });
+                }
+            });
+        });
+
+        function addBlock(value) {
+            var tr = $('<tr/>');
+
+            tr.append('<td>' + value.id + '</td>');
+            tr.append('<td>' + value.data + '</td>');
+            tr.append('<td>' + trim(value.hash, value.difficulty) + '...</td>');
+            tr.append('<td>' + trim(value.prevhash, value.difficulty) + '...</td>');
+            tr.append('<td>' + value.timestamp + '</td>');
+            tr.append('<td>' + value.difficulty + '</td>');
+            tr.append('<td>' + value.nonce + '</td>');
+            tr.append('<td>' + Math.round(value.performance * 100) / 100 + '</td>');
+
+            $('#blocks').append(tr);
+        }
+
+        function trim(string, length) {
+            return string.substring(0, length + 5);
+        }
+        </script>
+
+    <title>Blockchain Web API Demo</title>
+</head>
+<body>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Data:</span>
+        </div>
+        <input type="text" id="datainput" class="form-control" placeholder="<Enter your data here>" aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Prev Hash:</span>
+        </div>
+        <input type="text" id="prevhashinput" class="form-control" value="Enter data here" aria-describedby="basic-addon1">
+
+        <button id="addblock">Add New Block</button>
+    </div>
+
+    <div class="table-responsive-sm">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Block#</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Hash</th>
+                    <th scope="col">Prev Hash</th>
+                    <th scope="col">Time Stamp</th>
+                    <th scope="col">Difficulty</th>
+                    <th scope="col">Nonce</th>
+                    <th scope="col">Performance</th>
+                </tr>
+            </thead>
+            <tbody id="blocks"></tbody>
+        </table>
+    </div>
+</body>
+</html>
+

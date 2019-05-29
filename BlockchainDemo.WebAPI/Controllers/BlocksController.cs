@@ -19,12 +19,15 @@ namespace BlockchainDemo.WebAPI.Controllers
 
         public BlocksController(BlockContext context)
         {
-            _context = context;
+            if (_context == null)
+            {
+                _context = context;
+            }
 
             if (_context.BlockItems.Count() == 0)
             {
-                int difficulty =  GetDifficulty();
-                    
+                int difficulty = GetDifficulty();
+
                 if (difficulty > 0)
                 {
                     //Create our genesis block when controller first runs
@@ -34,7 +37,7 @@ namespace BlockchainDemo.WebAPI.Controllers
             }
         }
 
-        // GET: api/Block
+        // GET: api/Blocks
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Block>>> GetBlocks()
         {
@@ -61,39 +64,39 @@ namespace BlockchainDemo.WebAPI.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<ActionResult<IEnumerable<Block>>> Simulate(int instances)
+        public async Task<ActionResult<IEnumerable<Block>>> Simulate()
         {
-            for (int i = 0; i < instances; i++)
-            {
-                string prevHash = _context.BlockItems.Last().Hash;
+            string prevHash = _context.BlockItems.Last().Hash;
 
-                Block item = new Block("Some random data " + Guid.NewGuid(), prevHash, GetDifficulty());
-                _context.BlockItems.Add(item);
+            Block item = new Block("Some random data " + Guid.NewGuid(), prevHash, GetDifficulty());
+            _context.BlockItems.Add(item);
 
-                await _context.SaveChangesAsync();
-            }
+            await _context.SaveChangesAsync();
+
             return await _context.BlockItems.ToListAsync();
         }
 
-        // POST: api/Block
+        // POST: api/Blocks
         [HttpPost]
-        public async Task<ActionResult<Block>> PostBlock(Block item)
+        public async Task<ActionResult<Block>> PostBlock(Block block)
         {
-            int difficulty = GetDifficulty();
+            int currentDifficulty = GetDifficulty();
 
-            if (item.Prevhash != _context.BlockItems.Last().Hash || item.Difficulty != difficulty)
+            if (block.Prevhash != _context.BlockItems.Last().Hash)
             {
                 return StatusCode(400);
             }
 
-            _context.BlockItems.Add(item);
+            Block b = new Block(block.Data, block.Prevhash, currentDifficulty);
+
+            _context.BlockItems.Add(b);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetBlock), new { id = item.Id }, item);
+            return CreatedAtAction(nameof(GetBlock), new { id = b.Id }, b);
         }
 
         private int GetDifficulty()
-        {         
+        {
             int difficulty = int.TryParse(ConfigValueProvider.Get("BlockDifficulty"), out int intDifficulty) ? intDifficulty : 0;
 
             return difficulty;
