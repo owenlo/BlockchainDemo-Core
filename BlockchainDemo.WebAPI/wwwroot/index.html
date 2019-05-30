@@ -33,27 +33,27 @@
                 <span class="input-group-text" id="basic-addon1">Difficulty:</span>
             </div>
             <input type="text" id="difficultyinput" class="form-control" value="5" aria-describedby="basic-addon1">
+            <button id="addblock" class="btn btn-primary float-right">Add New Block</button>
         </div>
+    </div>
 
-        <button id="addblock" class="btn btn-primary float-right">Add New Block</button>
-
-        <div class="table-responsive-sm">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Block#</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Hash</th>
-                        <th scope="col">Prev Hash</th>
-                        <th scope="col">Time Stamp</th>
-                        <th scope="col">Difficulty</th>
-                        <th scope="col">Nonce</th>
-                        <th scope="col">Performance</th>
-                    </tr>
-                </thead>
-                <tbody id="blocks"></tbody>
-            </table>
-        </div>
+    <div class="container-fluid">
+        <table class="table table-striped table-bordered table-sm" cellspacing="0"
+               width="100%">
+            <thead>
+                <tr>
+                    <th>Block#</th>
+                    <th>Data</th>
+                    <th>Hash</th>
+                    <th>Prev Hash</th>
+                    <th>Time Stamp</th>
+                    <th>Difficulty</th>
+                    <th>Nonce</th>
+                    <th>Time Taken (s)</th>
+                </tr>
+            </thead>
+            <tbody id="blocks"></tbody>
+        </table>
     </div>
 </body>
 </html>
