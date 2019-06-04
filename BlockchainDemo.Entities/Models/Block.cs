@@ -18,6 +18,11 @@ namespace BlockchainDemo.Entities.Models
         public long Nonce { get; private set; }
         public double Performance { get; private set; }
 
+        public Block()
+        {
+
+        }
+
         public Block(string data, string prevhash, int difficulty)
         {
             this.Data = data;

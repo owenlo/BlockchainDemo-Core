@@ -17,12 +17,14 @@
     $("#addblock").click(function () {
         event.preventDefault();
 
+        var data = $('#datainput').val();
+
         $.ajax({
             type: 'post',
             url: 'api/blocks',
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify({ "data": $('#datainput').val(), "prevhash": $('#prevhashinput').val(), "difficulty": $('#difficultyinput').val() }),
+            data: JSON.stringify(data),
             processData: false,
             success: function (data, textStatus, jQxhr) {
                 addBlock(data);

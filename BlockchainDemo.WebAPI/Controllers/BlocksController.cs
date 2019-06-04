@@ -78,19 +78,12 @@ namespace BlockchainDemo.WebAPI.Controllers
 
         // POST: api/Blocks
         [HttpPost]
-        public async Task<ActionResult<Block>> PostBlock(Block block)
+        public async Task<ActionResult<Block>> PostBlock([FromBody]string data)
         {
             int currentDifficulty = GetDifficulty();
+            string prevhash = _context.BlockItems.Last().Hash;
 
-            if (block.Prevhash != _context.BlockItems.Last().Hash)
-            {
-                return StatusCode(400);
-            }
-
-            if (block.Difficulty != currentDifficulty)
-            {
-                return StatusCode(400);
-            }
+            Block block = new Block(data, prevhash, currentDifficulty);
 
             _context.BlockItems.Add(block);
             await _context.SaveChangesAsync();
