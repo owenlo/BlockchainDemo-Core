@@ -46,10 +46,24 @@ function addBlock(value) {
     tr.append('<td>' + value.data + '</td>');
     tr.append('<td>' + value.hash + '</td>');
     tr.append('<td>' + value.prevhash + '</td>');
-    tr.append('<td>' + value.timestamp + '</td>');
+    tr.append('<td>' + formatDate(value.timestamp) + '</td>');
     tr.append('<td>' + value.difficulty + '</td>');
     tr.append('<td>' + value.nonce + '</td>');
     tr.append('<td>' + Math.round(value.performance * 100) / 100 + '</td>');
 
     $('#blocks').append(tr);
+}
+
+//Source: https://stackoverflow.com/a/25275808
+function formatDate(date) {
+
+  var date = new Date(date);
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
 }
